@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Math Zombie Defense</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Canvas för spelgrafik -->
+        <canvas id="game-canvas"></canvas>
+
+        <!-- Mattefråga + svarsalternativ -->
+        <div id="math-area">
+            <div id="parachute-container">
+                <div id="parachute">🪂</div>
+                <div id="math-question">?</div>
+            </div>
+            <div id="answer-buttons">
+                <button class="answer-btn" data-index="0"></button>
+                <button class="answer-btn" data-index="1"></button>
+                <button class="answer-btn" data-index="2"></button>
+                <button class="answer-btn" data-index="3"></button>
+            </div>
+        </div>
+
+        <!-- Startskärm -->
+        <div id="start-screen" class="overlay">
+            <h1>🧟 Math Zombie Defense 🧟</h1>
+            <p>Lös mattetal för att ladda kanonen!</p>
+            <p>Stoppa zombierna innan de når basen!</p>
+            <div id="wave-select">
+                <label>Startvåg:</label>
+                <div id="wave-buttons">
+                    <button class="wave-btn selected" data-wave="1">1</button>
+                    <button class="wave-btn" data-wave="3">3</button>
+                    <button class="wave-btn" data-wave="5">5</button>
+                    <button class="wave-btn" data-wave="7">7</button>
+                    <button class="wave-btn" data-wave="10">10</button>
+                </div>
+            </div>
+            <button id="start-btn">STARTA SPELET</button>
+        </div>
+
+        <!-- Game Over -->
+        <div id="gameover-screen" class="overlay hidden">
+            <h1>💀 GAME OVER 💀</h1>
+            <p>Våg: <span id="final-wave">0</span></p>
+            <p>Poäng: <span id="final-score">0</span></p>
+            <p>Rätt svar: <span id="final-correct">0</span></p>
+            <button id="restart-btn">SPELA IGEN</button>
+        </div>
+    </div>
+
+    <script src="js/math.js"></script>
+    <script src="js/zombies.js"></script>
+    <script src="js/cannon.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
