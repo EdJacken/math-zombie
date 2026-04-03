@@ -39,6 +39,7 @@ const Game = {
         // Event listeners
         UI.elements.startBtn.addEventListener('click', () => this.start());
         UI.elements.restartBtn.addEventListener('click', () => this.start());
+        UI.elements.quitBtn.addEventListener('click', () => this.quit());
 
         // Callback för mattefrågor
         window._onMathAnswer = (isCorrect) => this._handleAnswer(isCorrect);
@@ -75,6 +76,13 @@ const Game = {
 
         UI.hideStart();
         UI.hideGameOver();
+    },
+
+    quit() {
+        this.state = 'start';
+        this._checkHighscore();
+        UI.elements.quitBtn.classList.add('hidden');
+        UI.showStart();
     },
 
     _resize() {
@@ -136,7 +144,8 @@ const Game = {
         // Kolla game over
         if (ZombieManager.hasReachedBase(Cannon.x)) {
             this.state = 'gameover';
-            UI.showGameOver(this.wave, this.score, this.correctAnswers);
+            const isNewHighscore = this._checkHighscore();
+            UI.showGameOver(this.wave, this.score, this.correctAnswers, isNewHighscore);
             return;
         }
 
@@ -183,6 +192,19 @@ const Game = {
 
         // Kort paus innan nästa fråga
         this.nextQuestionDelay = isCorrect ? 0.4 : 0.8;
+    },
+
+    _checkHighscore() {
+        const prev = parseInt(localStorage.getItem('mathZombieHighscore') || '0');
+        if (this.score > prev) {
+            localStorage.setItem('mathZombieHighscore', this.score);
+            return true;
+        }
+        return false;
+    },
+
+    _getHighscore() {
+        return parseInt(localStorage.getItem('mathZombieHighscore') || '0');
     },
 
     _buildBarricade() {

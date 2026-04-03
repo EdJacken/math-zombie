@@ -13,6 +13,8 @@
         <!-- Canvas för spelgrafik -->
         <canvas id="game-canvas"></canvas>
 
+        <button id="quit-btn" class="hidden">✕</button>
+
         <!-- Mattefråga + svarsalternativ -->
         <div id="math-area">
             <div id="parachute-container">
@@ -42,6 +44,7 @@
                     <button class="wave-btn" data-wave="10">10</button>
                 </div>
             </div>
+            <p id="highscore-display" class="highscore hidden"></p>
             <button id="start-btn">STARTA SPELET</button>
         </div>
 
@@ -51,6 +54,7 @@
             <p>Våg: <span id="final-wave">0</span></p>
             <p>Poäng: <span id="final-score">0</span></p>
             <p>Rätt svar: <span id="final-correct">0</span></p>
+            <p id="new-highscore" class="new-highscore hidden">🏆 NYTT HIGHSCORE! 🏆</p>
             <button id="restart-btn">SPELA IGEN</button>
         </div>
     </div>

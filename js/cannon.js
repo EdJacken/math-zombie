@@ -60,12 +60,19 @@ const Cannon = {
             p.y += p.vy * dt;
         }
 
-        // Kollision projektil <-> zombie
+        // Kollision projektil <-> zombie (inkl sköld-hitbox)
         this.projectiles = this.projectiles.filter(p => {
             for (const z of zombies) {
-                if (p.x >= z.x && p.x <= z.x + z.width &&
+                const hitX = z.hasShield ? z.x - 14 : z.x;
+                const hitW = z.hasShield ? z.width + 14 : z.width;
+                if (p.x >= hitX && p.x <= hitX + hitW &&
                     p.y >= z.y && p.y <= z.y + z.height) {
                     z.hp--;
+                    // Ta bort rustning i ordning: hjälm först, sen sköld
+                    if (z.hasHelmet && z.hp <= z.maxHp - 1) z.hasHelmet = false;
+                    if (z.hasShield && z.hp <= z.maxHp - 2) z.hasShield = false;
+                    // Om bara 2 hp: sköld försvinner vid första träff
+                    if (z.maxHp === 2 && z.hp <= 1) z.hasShield = false;
                     return false; // Ta bort projektilen
                 }
             }

@@ -16,7 +16,10 @@ const UI = {
             finalWave: document.getElementById('final-wave'),
             finalScore: document.getElementById('final-score'),
             finalCorrect: document.getElementById('final-correct'),
+            newHighscore: document.getElementById('new-highscore'),
+            highscoreDisplay: document.getElementById('highscore-display'),
             mathArea: document.getElementById('math-area'),
+            quitBtn: document.getElementById('quit-btn'),
         };
     },
 
@@ -24,18 +27,26 @@ const UI = {
         this.elements.startScreen.classList.remove('hidden');
         this.elements.gameoverScreen.classList.add('hidden');
         this.elements.mathArea.classList.add('hidden');
+        const hs = parseInt(localStorage.getItem('mathZombieHighscore') || '0');
+        if (hs > 0) {
+            this.elements.highscoreDisplay.textContent = `Highscore: ${hs}`;
+            this.elements.highscoreDisplay.classList.remove('hidden');
+        }
     },
 
     hideStart() {
         this.elements.startScreen.classList.add('hidden');
         this.elements.mathArea.classList.remove('hidden');
+        this.elements.quitBtn.classList.remove('hidden');
     },
 
-    showGameOver(wave, score, correctAnswers) {
+    showGameOver(wave, score, correctAnswers, isNewHighscore) {
         this.elements.gameoverScreen.classList.remove('hidden');
+        this.elements.quitBtn.classList.add('hidden');
         this.elements.finalWave.textContent = wave;
         this.elements.finalScore.textContent = score;
         this.elements.finalCorrect.textContent = correctAnswers;
+        this.elements.newHighscore.classList.toggle('hidden', !isNewHighscore);
     },
 
     hideGameOver() {
@@ -107,7 +118,7 @@ const UI = {
         ctx.fillText(`⭐ ${score}`, ctx.canvas.width / 2, 24);
 
         ctx.textAlign = 'right';
-        ctx.fillText(`💣 ${ammo}`, ctx.canvas.width - 10, 24);
+        ctx.fillText(`Ammo: ${ammo}`, ctx.canvas.width - 10, 24);
     },
 
     // Rita mark
