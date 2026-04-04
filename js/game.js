@@ -195,16 +195,22 @@ const Game = {
     },
 
     _checkHighscore() {
-        const prev = parseInt(localStorage.getItem('mathZombieHighscore') || '0');
-        if (this.score > prev) {
-            localStorage.setItem('mathZombieHighscore', this.score);
-            return true;
+        if (this.score <= 0) return false;
+        const list = this._getTopScores();
+        if (list.length < 3 || this.score > list[list.length - 1].score) {
+            list.push({ score: this.score, wave: this.wave, date: new Date().toLocaleDateString('sv-SE') });
+            list.sort((a, b) => b.score - a.score);
+            if (list.length > 3) list.length = 3;
+            localStorage.setItem('mathZombieTopScores', JSON.stringify(list));
+            return this.score === list[0].score;
         }
         return false;
     },
 
-    _getHighscore() {
-        return parseInt(localStorage.getItem('mathZombieHighscore') || '0');
+    _getTopScores() {
+        try {
+            return JSON.parse(localStorage.getItem('mathZombieTopScores') || '[]');
+        } catch { return []; }
     },
 
     _buildBarricade() {

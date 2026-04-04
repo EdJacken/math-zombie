@@ -27,11 +27,15 @@ const UI = {
         this.elements.startScreen.classList.remove('hidden');
         this.elements.gameoverScreen.classList.add('hidden');
         this.elements.mathArea.classList.add('hidden');
-        const hs = parseInt(localStorage.getItem('mathZombieHighscore') || '0');
-        if (hs > 0) {
-            this.elements.highscoreDisplay.textContent = `Highscore: ${hs}`;
-            this.elements.highscoreDisplay.classList.remove('hidden');
-        }
+        try {
+            const list = JSON.parse(localStorage.getItem('mathZombieTopScores') || '[]');
+            if (list.length > 0) {
+                const medals = ['🥇', '🥈', '🥉'];
+                this.elements.highscoreDisplay.innerHTML = '<strong>Topp 3</strong><br>' +
+                    list.map((e, i) => `${medals[i]} ${e.score} p — våg ${e.wave}`).join('<br>');
+                this.elements.highscoreDisplay.classList.remove('hidden');
+            }
+        } catch {}
     },
 
     hideStart() {
